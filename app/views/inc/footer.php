@@ -1,48 +1,47 @@
 </div>
-<script type="text/javascript" src="https://saram.linard.org/js/jquery.min.js"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="https://saram.linard.org/js/popper.min.js"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="https://saram.linard.org/js/bootstrap.min.js"></script>
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="https://saram.linard.org/js/mdb.min.js"></script>
-<!-- Your custom scripts (optional) -->
-<script type="text/javascript"></script>
-<!-- MDBootstrap Datatables  -->
-<script type="text/javascript" src="https://saram.linard.org/js/addons/datatables.min.js"></script>
-<script>
-  $(document).ready(function () {
-  $('#dtBasicTab').DataTable({
-    "aaSorting": [],
-    columnDefs: [{
-    orderable: false,
-    targets: [0,1]
-    }]
-    
-  });
-    $('.dataTables_length').addClass('bs-select');
-  });
-</script>
+  <!-- jQuery -->
+  <script type="text/javascript" src="https://saram.linard.org/js/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="https://saram.linard.org/js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="https://saram.linard.org/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://saram.linard.org/js/mdb.min.js"></script>
+  <!-- Your custom scripts (optional) -->
+  <script type="text/javascript"></script>
+  <!-- MDBootstrap Datatables  -->
+  <script type="text/javascript" src="https://saram.linard.org/js/addons/datatables.min.js"></script>
+  <script>
+    $(document).ready(function () {
+    $('#dtBasicTab').DataTable({
+      "aaSorting": [],
+      columnDefs: [{
+      orderable: false,
+      targets: [0,1]
+      }]
+      
+    });
+      $('.dataTables_length').addClass('bs-select');
+    });
+  </script>
+  <script>
+  function updConcept(str, buttonID) {
+    var xhr = new XMLHttpRequest();
+    //console.log(str)
+    xhr.open("POST", '<?php echo URLROOT . '/assessments/update/'; ?>', true);
 
-<script>
-function updConcept(str, buttonID) {
-  var xhr = new XMLHttpRequest();
-  //console.log(str)
-  xhr.open("POST", 'update_assessment.php', true);
+    //Send the proper header information along with the request
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-  //Send the proper header information along with the request
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-  xhr.onreadystatechange = function() { // Call a function when the state changes.
-      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-          // Request finished. Do processing here.
-          //alert(this.responseText);
-      }
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            // Request finished. Do processing here.
+            //alert(this.responseText);
+        }
+    }
+    xhr.send("content=" + str + "&AID=" + document.getElementById('aid').value + "&ID=" + buttonID)
   }
-  xhr.send("content=" + str + "&AID=" + document.getElementById('aid').value + "&ID=" + buttonID)
-}
 </script>
-
 <script>
 $(document).ready(function() {
   $('input[type=radio]').change(function() {
@@ -54,7 +53,7 @@ $(document).ready(function() {
     statusValue = this.value;
     var xhr = new XMLHttpRequest();
     //console.log(str)
-    xhr.open("POST", 'update_assessment.php', true);
+    xhr.open("POST", '<?php echo URLROOT . '/assessments/update/'; ?>', true);
 
     //Send the proper header information along with the request
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
