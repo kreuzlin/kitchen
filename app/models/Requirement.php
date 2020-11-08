@@ -37,6 +37,20 @@
       return $results;
     }
 
+    // Get Requirements related to a set of Exposures
+    public function getRequirementsByExposures($exposures){
+      $exposures = implode(', ', $exposures); 
+      $query = "SELECT Requirements.ID, Requirements.Requirement, Requirements.Description FROM Requirements 
+      LEFT JOIN Requirement2Exposure ON Requirements.ID = Requirement2Exposure.Requirements_ID 
+      WHERE Requirement2Exposure.Exposures_ID IN (".$exposures.")";
+      
+      $this->db->query($query);
+      
+      $results = $this->db->resultset();
+
+      return $results;
+    }
+
     // Get Requirements related to a Chapter ID and related to a set of Exposures
     public function getRequirementsByExposuresAndChapter($exposures, $id){
       $exposures = implode(', ', $exposures); 

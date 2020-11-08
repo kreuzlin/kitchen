@@ -1,5 +1,5 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
-<?php echo "<pre>", var_dump($data), "</pre>"; ?>
+<?php //echo "<pre>", var_dump($data), "</pre>"; ?>
   <div class="pt-4">
     <form action="<?php echo URLROOT; ?>/exposures/edit/<?php echo $data['id']; ?>" method="post"> 
       <div class="form-group">

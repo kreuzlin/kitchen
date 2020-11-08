@@ -26,6 +26,37 @@
       return $row;
     }
 
+    // Get Risks related to a set of Requirements
+    public function countRiskByRequirements($ids){
+      $ids = $ids ? $ids : array(0 => 0);
+      $ids = implode(', ', $ids);
+      $query = "SELECT Risks.ID AS Risks_ID, Risks.Risk, COUNT(*) AS Amount FROM Risks 
+      LEFT JOIN Requirement2Risk ON Risks.ID = Requirement2Risk.Risks_ID 
+      LEFT JOIN Requirements ON Requirement2Risk.Requirements_ID = Requirements.ID 
+      WHERE Requirement2Risk.Requirements_ID IN (".$ids.")
+      GROUP BY Risks.Risk";
+      $this->db->query($query);
+      
+      $results = $this->db->resultset();
+
+      return $results;
+    }
+
+    // Get Risks related to a set of Requirements
+    public function getRiskByRequirements($ids){
+      $ids = $ids ? $ids : array(0 => 0);
+      $ids = implode(', ', $ids);
+      $query = "SELECT Risks.ID AS Risks_ID, Risks.Risk, Requirements.ID AS Requirements_ID, Requirements.Requirement FROM Risks 
+      LEFT JOIN Requirement2Risk ON Risks.ID = Requirement2Risk.Risks_ID 
+      LEFT JOIN Requirements ON Requirement2Risk.Requirements_ID = Requirements.ID 
+      WHERE Requirement2Risk.Requirements_ID IN (".$ids.") ";
+      $this->db->query($query);
+      
+      $results = $this->db->resultset();
+
+      return $results;
+    }
+
     // Get Risks related to a Requirement
     public function getRiskByReq($id){
       $this->db->query("SELECT Risks.ID, Risks.Risk FROM Risks LEFT JOIN Requirement2Risk ON Risks.ID = Requirement2Risk.Risks_ID WHERE Requirement2Risk.Requirements_ID = :id");
@@ -36,7 +67,6 @@
 
       return $results;
     }
-
   
     // Get Risks NOT related to a Requirement
     public function getRiskByNotReq($id){

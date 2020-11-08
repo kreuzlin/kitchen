@@ -2,6 +2,15 @@
   <?php flash('assessment_message'); ?>
   <?php //echo "<pre>", var_dump($data['concept']), "</pre>"; ?>
 <div>
+<input type="hidden" id="aid" name="AID" value="<?php echo $data['assessment']->ID; ?>">
+<?php $textOpen = 'How is this requirement met: '; ?>
+<?php $textNA = 'Why is this requirement not applicable: '; ?>
+<?php $textOK = 'This is how this requirement is met: '; ?>
+<?php $textGap = 'What of the requirement is met, what is the gap, why is there a gap: '; ?>
+<p id="textOpen" hidden><?php echo $textOpen ?></p>
+<p id="textNA" hidden><?php echo $textNA ?></p>
+<p id="textOK" hidden><?php echo $textOK ?></p>
+<p id="textGap" hidden><?php echo $textGap ?></p>
 <div class="container">
   <div class="btn-toolbar">
     <div class="btn-group mr-1">
@@ -29,6 +38,16 @@
 <?php break ?>
 <?php case "h2":?>
 <h3><?php echo $concept_item['text']?></h3>
+<?php if ($concept_item['text'] == 'Known constraints and limiatations'): ?>
+<ul>
+<?php foreach($data['residualRisks'] as $risk_item) : ?>
+<li><?php echo 'The <a href="#'.$risk_item->Requirement.'">gap</a> in the ' . $risk_item->Requirement . ' requirement leads to some exposure with regard to ' . $risk_item->Risk ?></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+<?php if ($concept_item['text'] == 'Key risks and controls'): ?>
+<canvas id="radarChart"></canvas>
+<?php endif; ?>
 <?php break ?>
 <?php case "h3":?>
 <h4><?php echo $concept_item['text']?></h4>
@@ -41,21 +60,49 @@
 </div>
 <?php break ?>
 <?php case "requirement":?>
-<h5>Requirement <?php echo $concept_item['id']?>: <?php echo $concept_item['text']?></h5>
+<h5 id="<?php echo $concept_item['text']?>">Requirement <?php echo $concept_item['id']?>: <?php echo $concept_item['text']?></h5>
 <?php break ?>
 <?php case "requirementDescription":?>
 <div class="collapse" id="collapseStatusControl">
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
+<?php if ($concept_item['status'] == 'open'): ?>
 <label class="btn btn-secondary btn-sm active"><input type="radio" name="status[<?php echo $concept_item['id']?>]" id="option1" value="open" autocomplete="off" checked> open</label>
+<?php else: ?>
+<label class="btn btn-secondary btn-sm"><input type="radio" name="status[<?php echo $concept_item['id']?>]" id="option1" value="open" autocomplete="off"> open</label>
+<?php endif; ?>
+<?php if ($concept_item['status'] == 'n/a'): ?>
+<label class="btn btn-secondary btn-sm active"><input type="radio" name="status[<?php echo $concept_item['id']?>]" id="option2" value="n/a" autocomplete="off" checked> n/a</label>
+<?php else: ?>
 <label class="btn btn-secondary btn-sm"><input type="radio" name="status[<?php echo $concept_item['id']?>]" id="option2" value="n/a" autocomplete="off"> n/a</label>
+<?php endif; ?>
+<?php if ($concept_item['status'] == 'ok'): ?>
+<label class="btn btn-secondary btn-sm active"><input type="radio" name="status[<?php echo $concept_item['id']?>]" id="option3" value="ok" autocomplete="off" checked> ok</label>
+<?php else: ?>
 <label class="btn btn-secondary btn-sm"><input type="radio" name="status[<?php echo $concept_item['id']?>]" id="option3" value="ok" autocomplete="off"> ok</label>
+<?php endif; ?>
+<?php if ($concept_item['status'] == 'gap'): ?>
+<label class="btn btn-secondary btn-sm active"><input type="radio" name="status[<?php echo $concept_item['id']?>]" id="option4" value="gap" autocomplete="off" checked> gap</label>
+<?php else: ?>
 <label class="btn btn-secondary btn-sm"><input type="radio" name="status[<?php echo $concept_item['id']?>]" id="option4" value="gap" autocomplete="off"> gap</label>
+<?php endif; ?>
 </div>
 </div>
 <p class="font-italic"><?php echo $concept_item['text']?></p>
 <div class="form-group">
-<label for="textarea<?php echo $concept_item['id']?>">Why is this requirement not applicable: <a href="#">(examples)</a></label>
-<textarea class="form-control" id="textarea<?php echo $concept_item['id']?>" name="answers[<?php echo $concept_item['id']?>]" rows="3"></textarea>
+<?php switch ($concept_item['status']):?>
+<?php case "n/a":?>
+<label for="textarea<?php echo $concept_item['id']?>"><?php echo $textNA ?><a href="#">(examples)</a></label>
+<?php break ?>
+<?php case "ok":?>
+<label for="textarea<?php echo $concept_item['id']?>"><?php echo $textOK ?><a href="#">(examples)</a></label>
+<?php break ?>
+<?php case "gap":?>
+<label for="textarea<?php echo $concept_item['id']?>"><?php echo $textGap ?><a href="#">(examples)</a></label>
+<?php break ?>
+<?php default:?>
+<label for="textarea<?php echo $concept_item['id']?>"><?php echo $textOpen ?></label>
+<?php endswitch ?>
+<textarea class="form-control" id="textarea<?php echo $concept_item['id']?>" name="answers[<?php echo $concept_item['id']?>]" rows="3"><?php echo $concept_item['content']?></textarea>
 <button type="button" id="<?php echo $concept_item['id']?>" name="btnUpd" class="btn btn-primary btn-sm" onclick="updConcept(document.getElementById('textarea<?php echo $concept_item['id']?>').value,this.id)">Update</button>
 </div>
 <?php break ?>
@@ -64,6 +111,8 @@
 <?php exit ?>
 <?php endswitch ?>
 <?php endforeach; ?>
+
+
 
 <?php require APPROOT . '/views/inc/footer.php'; ?>
 

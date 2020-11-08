@@ -5,7 +5,7 @@
         redirect('users/login');
       }
       // Load Models
-      //$this->riskModel = $this->model('Risk');
+      $this->riskModel = $this->model('Risk');
       $this->requirementModel = $this->model('Requirement');
       $this->exposureModel = $this->model('Exposure');
       $this->assessmentModel = $this->model('Assessment');
@@ -27,9 +27,17 @@
     public function show($id){
       
       $assessment = $this->assessmentModel->getAssessmentById($id);
+      $assessmentContent = json_decode($assessment->Content, true);
+      
+      $assessmentStatus = json_decode($assessment->ReqStatus, true);
+      $assessmentStatus = $assessmentStatus ? $assessmentStatus : array();
+      $gaps = array_keys($assessmentStatus, "gap");
       
       $chapters = $this->chapterModel->getChapters();
       $identifiedExposures = json_decode($assessment->Answers);
+
+      $applicableRequirements = $this->requirementModel->getRequirementsByExposures($identifiedExposures);
+
       $relevantChapters = $this->chapterModel->getRelevantChapters($identifiedExposures);
 
       $concept = array();
@@ -54,10 +62,14 @@
               'id' => $thisRequirement->ID
             ];
             array_push($concept, $textItem);
+            $thisContent = isset($assessmentContent[$thisRequirement->ID]) ? $assessmentContent[$thisRequirement->ID] : null;
+            $thisStatus = isset($assessmentStatus[$thisRequirement->ID]) ? $assessmentStatus[$thisRequirement->ID] : null;
             $textItem = [
               'format' => 'requirementDescription',
               'text' => $thisRequirement->Description,
-              'id' => $thisRequirement->ID
+              'id' => $thisRequirement->ID,
+              'content' => $thisContent,
+              'status' => $thisStatus
             ];
             array_push($concept, $textItem);
           }
@@ -81,10 +93,14 @@
               'id' => $thisRequirement->ID
             ];
             array_push($concept, $textItem);
+            $thisContent = isset($assessmentContent[$thisRequirement->ID]) ? $assessmentContent[$thisRequirement->ID] : null;
+            $thisStatus = isset($assessmentStatus[$thisRequirement->ID]) ? $assessmentStatus[$thisRequirement->ID] : null;
             $textItem = [
               'format' => 'requirementDescription',
               'text' => $thisRequirement->Description,
-              'id' => $thisRequirement->ID
+              'id' => $thisRequirement->ID,
+              'content' => $thisContent,
+              'status' => $thisStatus
             ];
             array_push($concept, $textItem);
           }
@@ -108,44 +124,71 @@
               'id' => $thisRequirement->ID
             ];
             array_push($concept, $textItem);
+            $thisContent = isset($assessmentContent[$thisRequirement->ID]) ? $assessmentContent[$thisRequirement->ID] : null;
+            $thisStatus = isset($assessmentStatus[$thisRequirement->ID]) ? $assessmentStatus[$thisRequirement->ID] : null;
             $textItem = [
               'format' => 'requirementDescription',
               'text' => $thisRequirement->Description,
-              'id' => $thisRequirement->ID
+              'id' => $thisRequirement->ID,
+              'content' => $thisContent,
+              'status' => $thisStatus
             ];
             array_push($concept, $textItem);
           }
         }
       }
 
+      foreach($applicableRequirements as $requirement){
+        $reqIds[] = $requirement->ID;
+      }
+
+      $inherentRisks = $this->riskModel->countRiskByRequirements($reqIds);
+      $iRA['Advanced Persistent Threat (APT)'] = 1;
+      $iRA['Data Leakage'] = 1;
+      $iRA['Third Party Risk'] = 1;
+      $iRA['Financial Fraud'] = 1;
+      $iRA['Business Disruption'] = 1;
+      $iRA['Extortion'] = 1;
+      $iRA['Misuse of Infrastructure'] = 1;
+      $iRA['Physical Threat'] = 1;
+      $iRA['Brand Abuse'] = 1;
+      $iRA['Lack of fundamental protection'] = 1;
+
+      foreach($inherentRisks as $riskEntry){
+        $iRA[$riskEntry->Risk] = $riskEntry->Amount +1;
+      }
+      //ATP, Data Leakage, 3rd party, Financial, Disruption, Extortion, Misuse, Physical, Brand, Fundamental
+      $inherentRiskData = 'data: ['.$iRA['Advanced Persistent Threat (APT)'].', '.$iRA['Data Leakage'].', '.$iRA['Third Party Risk'].', '.$iRA['Financial Fraud'].', '.$iRA['Business Disruption'].', '.$iRA['Extortion'].', '.$iRA['Misuse of Infrastructure'].', '.$iRA['Physical Threat'].', '.$iRA['Brand Abuse'].', '.$iRA['Lack of fundamental protection'].']';
+      
+      $residualRisks = $this->riskModel->GetRiskByRequirements($gaps);
+      $residualRisk = $this->riskModel->countRiskByRequirements($gaps);
+      $rRA['Advanced Persistent Threat (APT)'] = 1;
+      $rRA['Data Leakage'] = 1;
+      $rRA['Third Party Risk'] = 1;
+      $rRA['Financial Fraud'] = 1;
+      $rRA['Business Disruption'] = 1;
+      $rRA['Extortion'] = 1;
+      $rRA['Misuse of Infrastructure'] = 1;
+      $rRA['Physical Threat'] = 1;
+      $rRA['Brand Abuse'] = 1;
+      $rRA['Lack of fundamental protection'] = 1;
+
+      foreach($residualRisk as $riskEntry){
+        $rRA[$riskEntry->Risk] = $riskEntry->Amount + 1;
+      }
+      //ATP, Data Leakage, 3rd party, Financial, Disruption, Extortion, Misuse, Physical, Brand, Fundamental
+      $residualRiskData = 'data: ['.$rRA['Advanced Persistent Threat (APT)'].', '.$rRA['Data Leakage'].', '.$rRA['Third Party Risk'].', '.$rRA['Financial Fraud'].', '.$rRA['Business Disruption'].', '.$rRA['Extortion'].', '.$rRA['Misuse of Infrastructure'].', '.$rRA['Physical Threat'].', '.$rRA['Brand Abuse'].', '.$rRA['Lack of fundamental protection'].']';
+      
       $data = [
         'assessment' => $assessment, 
         'concept' => $concept,
+        'residualRisks' => $residualRisks,
+        'inherentRiskData' => $inherentRiskData,
+        'residualRiskData' => $residualRiskData
       ];
-
       $this->view('assessments/show', $data);
     }
 
-    // // Show Assessment
-    // public function show($id){
-    //   $assessment = $this->assessmentModel->getAssessmentById($id);
-    //   //$chapters = $this->chapterModel->getChapters();
-    //   $exposures =  json_decode($assessment->Answers);
-    //   //echo '<pre>' . var_dump($exposures) . '</pre>';
-
-    //   $chapters = $this->chapterModel->getChaptersByExposures($exposures);
-    //   //$requirements = $this->requirementModel->getRequirements();
-    //   //echo '<pre>' . var_dump()
-      
-    //   //$requirements = $this->requirementModel->getRequirementsByExposures($exposures);
-
-    //   $data = [
-    //     'assessment' => $assessment, 
-    //     'chapters' => $chapters
-    //   ];
-
-    //   $this->view('assessments/show', $data);
-    // }
     // Add Assessment
     public function add(){
       if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -252,7 +295,7 @@
     }
     
     // Update Assessment with XMLHttpRequest
-    public function update($id){
+    public function update(){
       if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // Sanitize POST
         $_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -291,7 +334,7 @@
           $reqStatus[$id] = $newReqStatus;
 
           //update status
-          if($this->assessmentModel->updateAssessmentStatus($content,$aid)){
+          if($this->assessmentModel->updateAssessmentStatus($reqStatus,$aid)){
             echo "success";
           }
           else{

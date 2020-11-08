@@ -2,7 +2,7 @@
   <!-- jQuery -->
   <script type="text/javascript" src="https://saram.linard.org/js/jquery.min.js"></script>
   <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="https://saram.linard.org/js/popper.min.js"></script>
+  <script type="javascript" src="https://saram.linard.org/js/popper.min.js"></script>
   <!-- Bootstrap core JavaScript -->
   <script type="text/javascript" src="https://saram.linard.org/js/bootstrap.min.js"></script>
   <!-- MDB core JavaScript -->
@@ -27,7 +27,7 @@
   <script>
   function updConcept(str, buttonID) {
     var xhr = new XMLHttpRequest();
-    //console.log(str)
+    //console.log(buttonID)
     xhr.open("POST", '<?php echo URLROOT . '/assessments/update/'; ?>', true);
 
     //Send the proper header information along with the request
@@ -93,6 +93,52 @@ $(document).ready(function() {
     xhr.send("reqStatus=" + statusValue + "&AID=" + document.getElementById('aid').value + "&ID=" + statusID)
 
   });
+});
+</script>
+
+<script>
+//https://www.chartjs.org/docs/latest/charts/radar.html
+var ctxR = document.getElementById("radarChart").getContext('2d');
+var myRadarChart = new Chart(ctxR, {
+type: 'radar',
+data: {
+labels: ["Advanced Persistent Threat", "Data Leakage", "Third Party Risk", "Financial Fraud", "Business Disruption", "Extortion", "Misuse of Infrastructure", "Phisical Threat", "Brand Abuse", "Lack of Fundamental Protection"],
+datasets: [{
+label: "Inherent Risk",
+// data: [3, 4, 5, 3, 4, 5, 4, 4, 4, 3],
+<?php echo $data['inherentRiskData'] ?>,backgroundColor: [
+'rgba(191, 191, 63, .2)',
+],
+borderColor: [
+'rgba(191, 191, 63, .7)',
+],
+borderWidth: 2
+},
+{
+label: "Residual Risk",
+//data: [2, 4, 3, 2, 4, 1, 4, 4, 4, 3],
+<?php echo $data['residualRiskData'] ?>,backgroundColor: [
+'rgba(255, 99, 71, 0.6)',
+],
+borderColor: [
+'rgba(255, 99, 71, 1)',
+],
+borderWidth: 2
+}
+]
+},
+options:{
+  responsive: true,
+  scale: {
+    ticks: {
+    beginAtZero:true,
+    max:5,
+    min:0,
+    stepSize: 1
+    }
+  }
+}
+
 });
 </script>
 
