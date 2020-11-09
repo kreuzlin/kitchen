@@ -8,7 +8,7 @@
 
     // Get All Assessments
     public function getAssessments(){
-      $this->db->query("SELECT * FROM Assessments LEFT JOIN users ON Assessments.Owner_ID = users.id");
+      $this->db->query("SELECT *, assessments.id AS assessments_id FROM assessments LEFT JOIN users ON assessments.owner_id = users.id");
 
       $results = $this->db->resultset();
 
@@ -17,7 +17,7 @@
 
     // Get Assessment By ID
     public function getAssessmentById($id){
-      $this->db->query("SELECT * FROM Assessments LEFT JOIN users ON Assessments.Owner_ID = users.id WHERE Assessments.ID = :id");
+      $this->db->query("SELECT *, assessments.id AS assessments_id FROM assessments LEFT JOIN users ON assessments.owner_id = users.id WHERE assessments.id = :id");
 
       // Bind Values
       $this->db->bind(':id', $id);
@@ -31,7 +31,7 @@
     // Check if assessment exists
     public function assessmentExists($id){
       // Prepare Query
-      $this->db->query("SELECT * FROM Assessments WHERE ID = :id");
+      $this->db->query("SELECT * FROM assessments WHERE id = :id");
 
       // Bind Values
       $this->db->bind(':id', $id);
@@ -50,13 +50,13 @@
     // Add Assessment
     public function addAssessment($data){
       // Prepare Query
-      $this->db->query("INSERT INTO Assessments (Assessment, Answers, Owner_ID, Status) 
-      VALUES (:Assessment, :Answers, :Owner_ID, 'open') ");
+      $this->db->query("INSERT INTO assessments (assessment, answers, owner_id, status) 
+      VALUES (:assessment, :answers, :owner_id, 'open') ");
 
       // Bind Values
-      $this->db->bind(':Assessment', $data['assessment']);
-      $this->db->bind(':Answers', $data['answers']);
-      $this->db->bind(':Owner_ID', $data['owner']);
+      $this->db->bind(':assessment', $data['assessment']);
+      $this->db->bind(':answers', $data['answers']);
+      $this->db->bind(':owner_id', $data['owner']);
       
       //Execute
       if($this->db->execute()){
@@ -69,12 +69,12 @@
     // Update Assessment
     public function updateAssessment($data){
       // Prepare Query
-      $this->db->query('UPDATE Assessments SET Assessment = :Assessment, Answers = :Answers WHERE ID = :ID');
+      $this->db->query('UPDATE assessments SET assessment = :assessment, answers = :answers WHERE id = :id');
 
       // Bind Values
-      $this->db->bind(':Assessment', $data['assessment']);
-      $this->db->bind(':Answers', $data['answers']);
-      $this->db->bind(':ID', $data['id']);
+      $this->db->bind(':assessment', $data['assessment']);
+      $this->db->bind(':answers', $data['answers']);
+      $this->db->bind(':id', $data['id']);
       
       //Execute
       if($this->db->execute()){
@@ -88,12 +88,12 @@
     public function updateAssessmentContent($content, $id){
       $content_json = json_encode($content);
       // Prepare Query
-      $this->db->query('UPDATE Assessments SET Content = :content_json WHERE ID = :ID');
+      $this->db->query('UPDATE assessments SET content = :content_json WHERE id = :id');
       //UPDATE Assessments SET Content = '".$content_json."' WHERE ID = ".$aid;
 
       // Bind Values
       $this->db->bind(':content_json', $content_json);
-      $this->db->bind(':ID', $id);
+      $this->db->bind(':id', $id);
       
       //Execute
       if($this->db->execute()){
@@ -106,12 +106,12 @@
     public function updateAssessmentStatus($status, $id){
       $status_json = json_encode($status);
       // Prepare Query
-      $this->db->query('UPDATE Assessments SET ReqStatus = :reqStatus_json WHERE ID = :ID');
+      $this->db->query('UPDATE assessments SET reqstatus = :reqstatus_json WHERE id = :id');
       //UPDATE Assessments SET ReqStatus = '".$reqStatus_json."' WHERE ID = ".$aid;
 
       // Bind Values
-      $this->db->bind(':reqStatus_json', $status_json);
-      $this->db->bind(':ID', $id);
+      $this->db->bind(':reqstatus_json', $status_json);
+      $this->db->bind(':id', $id);
       
       //Execute
       if($this->db->execute()){
@@ -124,7 +124,7 @@
     // Delete Assessment
     public function deleteAssessments($data){
       // Prepare Query
-      $this->db->query("DELETE FROM Assessments WHERE ID IN (" . $data['IDs'] . ")");
+      $this->db->query("DELETE FROM assessments WHERE id IN (" . $data['ids'] . ")");
       
       //Execute
       if($this->db->execute()){

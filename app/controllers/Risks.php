@@ -76,7 +76,7 @@
         }
 
       } else {
-        $chapters = $this->chapterModel->getChapters();
+        $chapters = $this->riskModel->getRisks();
         $data = [
           'risk' => '',
           'description' => '',
@@ -95,9 +95,9 @@
         
         $data = [
           'id' => intval($id),
-          'risk' => trim($_POST['Risk']),
-          'description' => trim($_POST['Description']),
-          'reference' => trim($_POST['Reference']),
+          'risk' => trim($_POST['risk']),
+          'description' => trim($_POST['description']),
+          'reference' => trim($_POST['reference']),
           'risk_err' => '',
           'description_err' => '',
           'reference_err' => ''
@@ -116,7 +116,7 @@
         if(empty($data['risk_err']) && empty($data['description_err'])){
           // Validation passed
           //Execute
-          //echo '<pre>' , var_dump($data) , '</pre>';
+          echo '<pre>' , var_dump($data) , '</pre>';
           if($this->riskModel->updateRisk($data)){
           // Redirect
           flash('requirement_message', 'Risk Updated');
@@ -150,7 +150,7 @@
         $ids = implode(', ', $id); 
 
         $data = [
-          'IDs' => $ids
+          'ids' => $ids
         ];
         //Execute
         if($this->riskModel->deleteRisk($data)){

@@ -39,7 +39,7 @@
             //alert(this.responseText);
         }
     }
-    xhr.send("content=" + str + "&AID=" + document.getElementById('aid').value + "&ID=" + buttonID)
+    xhr.send("content=" + str + "&aid=" + document.getElementById('aid').value + "&id=" + buttonID)
   }
 </script>
 <script>
@@ -90,7 +90,7 @@ $(document).ready(function() {
         }
       }
     }
-    xhr.send("reqStatus=" + statusValue + "&AID=" + document.getElementById('aid').value + "&ID=" + statusID)
+    xhr.send("reqStatus=" + statusValue + "&aid=" + document.getElementById('aid').value + "&id=" + statusID)
 
   });
 });

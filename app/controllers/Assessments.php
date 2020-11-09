@@ -27,14 +27,14 @@
     public function show($id){
       
       $assessment = $this->assessmentModel->getAssessmentById($id);
-      $assessmentContent = json_decode($assessment->Content, true);
+      $assessmentContent = json_decode($assessment->content, true);
       
-      $assessmentStatus = json_decode($assessment->ReqStatus, true);
+      $assessmentStatus = json_decode($assessment->reqstatus, true);
       $assessmentStatus = $assessmentStatus ? $assessmentStatus : array();
       $gaps = array_keys($assessmentStatus, "gap");
       
       $chapters = $this->chapterModel->getChapters();
-      $identifiedExposures = json_decode($assessment->Answers);
+      $identifiedExposures = json_decode($assessment->answers);
 
       $applicableRequirements = $this->requirementModel->getRequirementsByExposures($identifiedExposures);
 
@@ -43,93 +43,93 @@
       $concept = array();
 
       foreach($relevantChapters as $chapter){
-        if($chapter->Type == 1){
+        if($chapter->type == 1){
           $textItem = [
             'format' => 'h1',
-            'text' => $chapter->Chapter
+            'text' => $chapter->chapter
           ];
           array_push($concept, $textItem);
           $textItem = [
             'format' => 'chpaterDescription',
-            'text' => $chapter->Description
+            'text' => $chapter->description
           ];
           array_push($concept, $textItem);
-          $thisRequirements = $this->requirementModel->getRequirementsByExposuresAndChapter($identifiedExposures, $chapter->ID);
+          $thisRequirements = $this->requirementModel->getRequirementsByExposuresAndChapter($identifiedExposures, $chapter->id);
           foreach($thisRequirements as $thisRequirement){
             $textItem = [
               'format' => 'requirement',
-              'text' => $thisRequirement->Requirement,
-              'id' => $thisRequirement->ID
+              'text' => $thisRequirement->requirement,
+              'id' => $thisRequirement->id
             ];
             array_push($concept, $textItem);
-            $thisContent = isset($assessmentContent[$thisRequirement->ID]) ? $assessmentContent[$thisRequirement->ID] : null;
-            $thisStatus = isset($assessmentStatus[$thisRequirement->ID]) ? $assessmentStatus[$thisRequirement->ID] : null;
+            $thisContent = isset($assessmentContent[$thisRequirement->id]) ? $assessmentContent[$thisRequirement->id] : null;
+            $thisStatus = isset($assessmentStatus[$thisRequirement->id]) ? $assessmentStatus[$thisRequirement->id] : null;
             $textItem = [
               'format' => 'requirementDescription',
-              'text' => $thisRequirement->Description,
-              'id' => $thisRequirement->ID,
+              'text' => $thisRequirement->description,
+              'id' => $thisRequirement->id,
               'content' => $thisContent,
               'status' => $thisStatus
             ];
             array_push($concept, $textItem);
           }
         }
-        elseif($chapter->Type == 2){
+        elseif($chapter->type == 2){
           $textItem = [
             'format' => 'h2',
-            'text' => $chapter->Chapter
+            'text' => $chapter->chapter
           ];
           array_push($concept, $textItem);
           $textItem = [
             'format' => 'chpaterDescription',
-            'text' => $chapter->Description
+            'text' => $chapter->description
           ];
           array_push($concept, $textItem);
-          $thisRequirements = $this->requirementModel->getRequirementsByExposuresAndChapter($identifiedExposures, $chapter->ID);
+          $thisRequirements = $this->requirementModel->getRequirementsByExposuresAndChapter($identifiedExposures, $chapter->id);
           foreach($thisRequirements as $thisRequirement){
             $textItem = [
               'format' => 'requirement',
-              'text' => $thisRequirement->Requirement,
-              'id' => $thisRequirement->ID
+              'text' => $thisRequirement->requirement,
+              'id' => $thisRequirement->id
             ];
             array_push($concept, $textItem);
-            $thisContent = isset($assessmentContent[$thisRequirement->ID]) ? $assessmentContent[$thisRequirement->ID] : null;
-            $thisStatus = isset($assessmentStatus[$thisRequirement->ID]) ? $assessmentStatus[$thisRequirement->ID] : null;
+            $thisContent = isset($assessmentContent[$thisRequirement->id]) ? $assessmentContent[$thisRequirement->id] : null;
+            $thisStatus = isset($assessmentStatus[$thisRequirement->id]) ? $assessmentStatus[$thisRequirement->id] : null;
             $textItem = [
               'format' => 'requirementDescription',
-              'text' => $thisRequirement->Description,
-              'id' => $thisRequirement->ID,
+              'text' => $thisRequirement->description,
+              'id' => $thisRequirement->id,
               'content' => $thisContent,
               'status' => $thisStatus
             ];
             array_push($concept, $textItem);
           }
         }
-        elseif($chapter->Type == 3){
+        elseif($chapter->type == 3){
           $textItem = [
             'format' => 'h3',
-            'text' => $chapter->Chapter
+            'text' => $chapter->chapter
           ];
           array_push($concept, $textItem);
           $textItem = [
             'format' => 'chpaterDescription',
-            'text' => $chapter->Description
+            'text' => $chapter->description
           ];
           array_push($concept, $textItem);
-          $thisRequirements = $this->requirementModel->getRequirementsByExposuresAndChapter($identifiedExposures, $chapter->ID);
+          $thisRequirements = $this->requirementModel->getRequirementsByExposuresAndChapter($identifiedExposures, $chapter->id);
           foreach($thisRequirements as $thisRequirement){
             $textItem = [
               'format' => 'requirement',
-              'text' => $thisRequirement->Requirement,
-              'id' => $thisRequirement->ID
+              'text' => $thisRequirement->requirement,
+              'id' => $thisRequirement->id
             ];
             array_push($concept, $textItem);
-            $thisContent = isset($assessmentContent[$thisRequirement->ID]) ? $assessmentContent[$thisRequirement->ID] : null;
-            $thisStatus = isset($assessmentStatus[$thisRequirement->ID]) ? $assessmentStatus[$thisRequirement->ID] : null;
+            $thisContent = isset($assessmentContent[$thisRequirement->id]) ? $assessmentContent[$thisRequirement->id] : null;
+            $thisStatus = isset($assessmentStatus[$thisRequirement->id]) ? $assessmentStatus[$thisRequirement->id] : null;
             $textItem = [
               'format' => 'requirementDescription',
-              'text' => $thisRequirement->Description,
-              'id' => $thisRequirement->ID,
+              'text' => $thisRequirement->description,
+              'id' => $thisRequirement->id,
               'content' => $thisContent,
               'status' => $thisStatus
             ];
@@ -139,7 +139,7 @@
       }
 
       foreach($applicableRequirements as $requirement){
-        $reqIds[] = $requirement->ID;
+        $reqIds[] = $requirement->id;
       }
 
       $inherentRisks = $this->riskModel->countRiskByRequirements($reqIds);
@@ -155,7 +155,7 @@
       $iRA['Lack of fundamental protection'] = 1;
 
       foreach($inherentRisks as $riskEntry){
-        $iRA[$riskEntry->Risk] = $riskEntry->Amount +1;
+        $iRA[$riskEntry->risk] = $riskEntry->amount +1;
       }
       //ATP, Data Leakage, 3rd party, Financial, Disruption, Extortion, Misuse, Physical, Brand, Fundamental
       $inherentRiskData = 'data: ['.$iRA['Advanced Persistent Threat (APT)'].', '.$iRA['Data Leakage'].', '.$iRA['Third Party Risk'].', '.$iRA['Financial Fraud'].', '.$iRA['Business Disruption'].', '.$iRA['Extortion'].', '.$iRA['Misuse of Infrastructure'].', '.$iRA['Physical Threat'].', '.$iRA['Brand Abuse'].', '.$iRA['Lack of fundamental protection'].']';
@@ -174,7 +174,7 @@
       $rRA['Lack of fundamental protection'] = 1;
 
       foreach($residualRisk as $riskEntry){
-        $rRA[$riskEntry->Risk] = $riskEntry->Amount + 1;
+        $rRA[$riskEntry->risk] = $riskEntry->amount + 1;
       }
       //ATP, Data Leakage, 3rd party, Financial, Disruption, Extortion, Misuse, Physical, Brand, Fundamental
       $residualRiskData = 'data: ['.$rRA['Advanced Persistent Threat (APT)'].', '.$rRA['Data Leakage'].', '.$rRA['Third Party Risk'].', '.$rRA['Financial Fraud'].', '.$rRA['Business Disruption'].', '.$rRA['Extortion'].', '.$rRA['Misuse of Infrastructure'].', '.$rRA['Physical Threat'].', '.$rRA['Brand Abuse'].', '.$rRA['Lack of fundamental protection'].']';
@@ -283,8 +283,8 @@
         $assessment = $this->assessmentModel->getAssessmentById($id);
 
         $data = [
-          'assessment' => $assessment->Assessment,
-          'answers' => json_decode($assessment->Answers),
+          'assessment' => $assessment->assessment,
+          'answers' => json_decode($assessment->answers),
           'assessment_err' => '',
           'exposures' => $exposures,
           'id' => $id
@@ -300,8 +300,8 @@
         // Sanitize POST
         $_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         if(isset($_POST['content'])){
-          $aid = intval($_POST['AID']);
-          $id = intval($_POST['ID']);
+          $aid = intval($_POST['aid']);
+          $id = intval($_POST['id']);
 
           //get ALL content
           $assessment = $this->assessmentModel->getAssessmentById($aid);
@@ -321,12 +321,12 @@
           }
         }
         elseif(isset($_POST['reqStatus'])){
-          $aid = intval($_POST['AID']);
-          $id = intval($_POST['ID']);
+          $aid = intval($_POST['aid']);
+          $id = intval($_POST['id']);
 
           //get current status
           $assessment = $this->assessmentModel->getAssessmentById($aid);
-          $reqStatus_json = $assessment->ReqStatus;
+          $reqStatus_json = $assessment->reqstatus;
           $reqStatus = json_decode($reqStatus_json, true);
 
           //add new status to current set of status
@@ -353,7 +353,7 @@
         $ids = implode(', ', $id); 
 
         $data = [
-          'IDs' => $ids
+          'ids' => $ids
         ];
         //Execute
         if($this->assessmentModel->deleteAssessments($data)){

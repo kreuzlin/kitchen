@@ -19,17 +19,17 @@
       <!-- https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=crud-data-table-for-database-with-modal-form -->
       <?php foreach($data['risks'] as $risk) : ?>
         <tr>
-          <td><input type="checkbox" name="id[]" value="<?php echo $risk->ID; ?>"></td>
-          <td><a href="<?php echo URLROOT . '/risks/edit/' . $risk->ID; ?>">edit</a></td>
-          <td><a href="<?php echo URLROOT . '/risks/show/' . $risk->ID; ?>"><?php echo $risk->Risk; ?></a></td>
-          <td><?php echo $risk->Description; ?></td>
-          <td><?php echo $risk->Reference; ?></td>
+          <td><input type="checkbox" name="id[]" value="<?php echo $risk->id; ?>"></td>
+          <td><a href="<?php echo URLROOT . '/risks/edit/' . $risk->id; ?>">edit</a></td>
+          <td><a href="<?php echo URLROOT . '/risks/show/' . $risk->id; ?>"><?php echo $risk->risk; ?></a></td>
+          <td><?php echo $risk->description; ?></td>
+          <td><?php echo $risk->reference; ?></td>
         </tr>
       <?php endforeach; ?>         
       </tbody>
     </table>
     <div class="btn-group btn-group-sm" role="group" aria-label="Basic">
-      <p><a href="<?php echo URLROOT . '/requirements/add'; ?>" class="btn btn-primary" role="button">add</a></p>
+      <p><a href="<?php echo URLROOT . '/risks/add'; ?>" class="btn btn-primary" role="button">add</a></p>
       <input type="submit" class="btn btn-primary" value="delete">
     </div>
   </form>

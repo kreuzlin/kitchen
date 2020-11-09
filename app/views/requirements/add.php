@@ -9,39 +9,39 @@
         <span class="invalid-feedback"><?php echo $data['requirement_err']; ?></span>
       </div>
       <div class="form-group">
-        <label for="Description">Description</label>
+        <label for="description">Description</label>
         <input type="text" name="description" class="form-control <?php echo (!empty($data['description_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['description']; ?>" placeholder="Add the requirement text...">
         <span class="invalid-feedback"><?php echo $data['description_err']; ?></span>
       </div>
       <div class="form-group">
-        <label for="Chapters_ID">Chapter</label>
-        <select class="form-control" name="chapters_ID">
+        <label for="chapters_id">Chapter</label>
+        <select class="form-control" name="chapters_id">
           <?php foreach($data['chapters'] as $chapter) : ?>
-            <?php if($chapter->ID == $data['chapters_ID']): ?>
-              <option value="<?php echo $chapter->ID; ?>" selected><?php echo $chapter->Chapter; ?></option>
+            <?php if($chapter->id == $data['chapters_id']): ?>
+              <option value="<?php echo $chapter->id; ?>" selected><?php echo $chapter->chapter; ?></option>
             <?php else: ?>
-              <option value="<?php echo $chapter->ID; ?>"><?php echo $chapter->Chapter; ?></option>
+              <option value="<?php echo $chapter->id; ?>"><?php echo $chapter->chapter; ?></option>
             <?php endif; ?>
           <?php endforeach; ?>
         </select>
       </div>
       <div class="form-group">
-        <label for="Area">Area</label>
+        <label for="area">Area</label>
         <input type="text" name="area" class="form-control <?php echo (!empty($data['area_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['area']; ?>" placeholder="Add an area...">
         <span class="invalid-feedback"><?php echo $data['title_err']; ?></span>
       </div>
       <div class="form-group">
-        <label for="Standard">Standard</label>
+        <label for="standard">Standard</label>
         <input type="text" name="standard" class="form-control <?php echo (!empty($data['standard_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['standard']; ?>" placeholder="Name of related standard...">
         <span class="invalid-feedback"><?php echo $data['standard_err']; ?></span>
       </div>
       <div class="form-group">
-        <label for="Examples">Examples</label>
+        <label for="examples">Examples</label>
         <input type="text" name="examples" class="form-control <?php echo (!empty($data['examples_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['examples']; ?>" placeholder="Add examples of a succesful implementation of this control...">
         <span class="invalid-feedback"><?php echo $data['examples_err']; ?></span>
       </div>
       <div class="form-group">
-        <label for="Relevant">Relevant</label>
+        <label for="relevant">Relevant</label>
         <?php if($data['relevant'] == 1): ?>
         <input type="checkbox"class="form-control" name="relevant" id="relevant" value="1" checked>
         <?php else: ?>

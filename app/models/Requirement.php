@@ -8,7 +8,7 @@
 
     // Get All Requirements
     public function getRequirements(){
-      $this->db->query("SELECT re.ID, re.Requirement, re.Area, re.Description, re.Examples, re.Relevant, re.Standard, ch.Chapter FROM Requirements AS re LEFT JOIN Chapters AS ch ON Chapters_ID = ch.ID");
+      $this->db->query("SELECT re.id, re.requirement, re.area, re.description, re.examples, re.relevant, re.standard, ch.chapter FROM requirements AS re LEFT JOIN chapters AS ch ON chapters_id = ch.id");
 
       $results = $this->db->resultset();
 
@@ -17,7 +17,7 @@
 
     // Get Requirement By ID
     public function getRequirementById($id){
-      $this->db->query("SELECT re.ID, re.Requirement, re.Area, re.Description, re.Examples, re.Relevant, re.Standard, ch.Chapter FROM Requirements AS re LEFT JOIN Chapters AS ch ON Chapters_ID = ch.ID WHERE re.ID = :id");
+      $this->db->query("SELECT re.id, re.requirement, re.area, re.description, re.examples, re.relevant, re.standard, ch.chapter FROM requirements AS re LEFT JOIN chapters AS ch ON chapters_id = ch.id WHERE re.id = :id");
 
       $this->db->bind(':id', $id);
       
@@ -28,7 +28,7 @@
 
     // Get Requirement By Chapter ID
     public function getRequirementsByChapterId($id){
-      $this->db->query("SELECT * FROM Requirements WHERE Chapters_ID = :id");
+      $this->db->query("SELECT * FROM requirements WHERE chapters_id = :id");
 
       $this->db->bind(':id', $id);
       
@@ -40,9 +40,9 @@
     // Get Requirements related to a set of Exposures
     public function getRequirementsByExposures($exposures){
       $exposures = implode(', ', $exposures); 
-      $query = "SELECT Requirements.ID, Requirements.Requirement, Requirements.Description FROM Requirements 
-      LEFT JOIN Requirement2Exposure ON Requirements.ID = Requirement2Exposure.Requirements_ID 
-      WHERE Requirement2Exposure.Exposures_ID IN (".$exposures.")";
+      $query = "SELECT requirements.id, requirements.requirement, requirements.description FROM requirements 
+      LEFT JOIN requirement2exposure ON requirements.id = requirement2exposure.requirements_id 
+      WHERE requirement2exposure.exposures_id IN (".$exposures.")";
       
       $this->db->query($query);
       
@@ -54,9 +54,9 @@
     // Get Requirements related to a Chapter ID and related to a set of Exposures
     public function getRequirementsByExposuresAndChapter($exposures, $id){
       $exposures = implode(', ', $exposures); 
-      $query = "SELECT Requirements.ID, Requirements.Requirement, Requirements.Description FROM Requirements 
-      LEFT JOIN Requirement2Exposure ON Requirements.ID = Requirement2Exposure.Requirements_ID 
-      WHERE Requirement2Exposure.Exposures_ID IN (".$exposures.") AND Chapters_ID = :id";
+      $query = "SELECT requirements.id, requirements.requirement, requirements.description FROM requirements 
+      LEFT JOIN requirement2exposure ON requirements.id = requirement2exposure.requirements_id 
+      WHERE requirement2exposure.exposures_id IN (".$exposures.") AND chapters_id = :id";
       
       $this->db->query($query);
 
@@ -67,21 +67,9 @@
       return $results;
     }
     
-    // Get Requirements related to a set of exposures
-    // public function getRequirementsByExposures($exposures){
-    //   $this->db->query("SELECT Requirements.ID, Requirements.Requirement FROM Requirements LEFT JOIN Requirement2Exposure ON Requirements.ID = Requirement2Exposure.Requirements_ID WHERE Requirement2Exposure.Exposures_ID IN (:exposures)");
-
-    //   $exposures = implode(', ', $exposures); 
-    //   $this->db->bind(':exposures', $exposures);
-      
-    //   $results = $this->db->resultset();
-
-    //   return $results;
-    // }
-
     // Get Requirements related to a exposure
     public function getRequirementsByExp($id){
-      $this->db->query("SELECT Requirements.ID, Requirements.Requirement FROM Requirements LEFT JOIN Requirement2Exposure ON Requirements.ID = Requirement2Exposure.Requirements_ID WHERE Requirement2Exposure.Exposures_ID = :id");
+      $this->db->query("SELECT requirements.id, requirements.requirement FROM requirements LEFT JOIN requirement2exposure ON requirements.id = requirement2exposure.requirements_id WHERE requirement2exposure.exposures_id = :id");
 
       $this->db->bind(':id', $id);
       
@@ -92,7 +80,7 @@
 
     // Get Requirements related to a risk
     public function getRequirementsByRisk($id){
-      $this->db->query("SELECT Requirements.ID, Requirements.Requirement FROM Requirements LEFT JOIN Requirement2Risk ON Requirements.ID = Requirement2Risk.Requirements_ID WHERE Requirement2Risk.Risks_ID = :id");
+      $this->db->query("SELECT requirements.id, requirements.requirement FROM requirements LEFT JOIN requirement2risk ON requirements.id = requirement2risk.requirements_id WHERE requirement2risk.risks_id = :id");
 
       $this->db->bind(':id', $id);
       
@@ -103,7 +91,7 @@
 
     // Get Requirements not related to a exposure
     public function getRequirementsByNotExp($id){
-      $this->db->query("SELECT Requirement, ID FROM Requirements WHERE Relevant = True AND ID NOT IN (SELECT Requirements_ID FROM Requirement2Exposure WHERE Exposures_ID = :id)");
+      $this->db->query("SELECT requirement, id FROM requirements WHERE relevant = TRUE AND id NOT IN (SELECT requirements_id FROM requirement2exposure WHERE exposures_id = :id)");
 
       $this->db->bind(':id', $id);
       
@@ -114,7 +102,7 @@
 
     // Get Requirements not related to a risk
     public function getRequirementsByNotRisk($id){
-      $this->db->query("SELECT Requirement, ID FROM Requirements WHERE ID NOT IN (SELECT Requirements_ID FROM Requirement2Risk WHERE Risks_ID = :id)");
+      $this->db->query("SELECT requirement, id FROM requirements WHERE id NOT IN (SELECT requirements_id FROM requirement2risk WHERE risks_id = :id)");
 
       $this->db->bind(':id', $id);
       
@@ -127,17 +115,17 @@
     // Add Requirement
     public function addRequirement($data){
       // Prepare Query
-      $this->db->query('INSERT INTO Requirements (Requirement, Description, Area, Standard, Examples, Chapters_ID, Relevant) 
-      VALUES (:Requirement, :Description, :Area, :Standard, :Examples, :Chapters_ID, :Relevant)');
+      $this->db->query('INSERT INTO requirements (requirement, description, area, standard, examples, chapters_id, relevant) 
+      VALUES (:requirement, :description, :area, :standard, :examples, :chapters_id, :relevant)');
 
       // Bind Values
-      $this->db->bind(':Requirement', $data['requirement']);
-      $this->db->bind(':Description', $data['description']);
-      $this->db->bind(':Area', $data['area']);
-      $this->db->bind(':Standard', $data['standard']);
-      $this->db->bind(':Examples', $data['examples']);
-      $this->db->bind(':Chapters_ID', $data['chapters_ID']);
-      $this->db->bind(':Relevant', $data['relevant']);
+      $this->db->bind(':requirement', $data['requirement']);
+      $this->db->bind(':description', $data['description']);
+      $this->db->bind(':area', $data['area']);
+      $this->db->bind(':standard', $data['standard']);
+      $this->db->bind(':examples', $data['examples']);
+      $this->db->bind(':chapters_id', $data['chapters_id']);
+      $this->db->bind(':relevant', $data['relevant']);
 
       //Execute
       if($this->db->execute()){
@@ -150,17 +138,17 @@
     // Update Requirement
     public function updateRequirement($data){
       // Prepare Query
-      $this->db->query('UPDATE Requirements SET Requirement = :Requirement, Description = :Description, Area = :Area, Standard = :Standard, Examples = :Examples, Chapters_ID = :Chapters_ID, Relevant = :Relevant WHERE ID = :id');
+      $this->db->query('UPDATE requirements SET requirement = :requirement, description = :description, area = :area, standard = :standard, examples = :examples, chapters_id = :chapters_id, relevant = :relevant WHERE id = :id');
 
       // Bind Values
-      $this->db->bind(':id', $data['ID']);
-      $this->db->bind(':Requirement', $data['Requirement']);
-      $this->db->bind(':Description', $data['Description']);
-      $this->db->bind(':Area', $data['Area']);
-      $this->db->bind(':Standard', $data['Standard']);
-      $this->db->bind(':Examples', $data['Examples']);
-      $this->db->bind(':Chapters_ID', $data['Chapters_ID']);
-      $this->db->bind(':Relevant', $data['Relevant']);
+      $this->db->bind(':id', $data['id']);
+      $this->db->bind(':requirement', $data['requirement']);
+      $this->db->bind(':description', $data['description']);
+      $this->db->bind(':area', $data['area']);
+      $this->db->bind(':standard', $data['standard']);
+      $this->db->bind(':examples', $data['examples']);
+      $this->db->bind(':chapters_id', $data['chapters_id']);
+      $this->db->bind(':relevant', $data['relevant']);
       
       //Execute
       if($this->db->execute()){
@@ -174,11 +162,11 @@
     public function addRiskToReq($data){
       //echo '<pre>' . var_dump($data) . '</pre>';
       // Prepare Query
-      $this->db->query('INSERT INTO Requirement2Risk (Requirements_ID, Risks_ID) VALUES (:Requirements_ID, :Risks_ID)');
+      $this->db->query('INSERT INTO requirement2risk (requirements_id, risks_id) VALUES (:requirements_id, :risks_id)');
 
       // Bind Values
-      $this->db->bind(':Requirements_ID', $data['requirements_id']);
-      $this->db->bind(':Risks_ID', $data['risks_id']);
+      $this->db->bind(':requirements_id', $data['requirements_id']);
+      $this->db->bind(':risks_id', $data['risks_id']);
 
       //Execute
       if($this->db->execute()){
@@ -192,11 +180,11 @@
     public function removeRiskFromReq($data){
       //echo '<pre>' . var_dump($data) . '</pre>';
       // Prepare Query
-      $this->db->query('DELETE FROM Requirement2Risk WHERE Requirements_ID = :Requirements_ID AND Risks_ID = :Risks_ID');
+      $this->db->query('DELETE FROM requirement2risk WHERE requirements_id = :requirements_id AND risks_id = :risks_id');
 
       // Bind Values
-      $this->db->bind(':Requirements_ID', $data['requirements_id']);
-      $this->db->bind(':Risks_ID', $data['risks_id']);
+      $this->db->bind(':requirements_id', $data['requirements_id']);
+      $this->db->bind(':risks_id', $data['risks_id']);
 
       //Execute
       if($this->db->execute()){
@@ -210,11 +198,11 @@
     public function addExposureToReq($data){
       //echo '<pre>' . var_dump($data) . '</pre>';
       // Prepare Query
-      $this->db->query('INSERT INTO Requirement2Exposure (Requirements_ID, Exposures_ID) VALUES (:Requirements_ID, :Exposures_ID)');
+      $this->db->query('INSERT INTO requirement2exposure (requirements_id, exposures_id) VALUES (:requirements_id, :exposures_id)');
 
       // Bind Values
-      $this->db->bind(':Requirements_ID', $data['requirements_id']);
-      $this->db->bind(':Exposures_ID', $data['exposures_id']);
+      $this->db->bind(':requirements_id', $data['requirements_id']);
+      $this->db->bind(':exposures_ID', $data['exposures_id']);
 
       //Execute
       if($this->db->execute()){
@@ -228,11 +216,11 @@
     public function removeExposureFromReq($data){
       //echo '<pre>' . var_dump($data) . '</pre>';
       // Prepare Query
-      $this->db->query('DELETE FROM Requirement2Exposure WHERE Requirements_ID = :Requirements_ID AND Exposures_ID = :Exposures_ID');
+      $this->db->query('DELETE FROM requirement2exposure WHERE requirements_id = :requirements_id AND exposures_id = :exposures_id');
 
       // Bind Values
-      $this->db->bind(':Requirements_ID', $data['requirements_id']);
-      $this->db->bind(':Exposures_ID', $data['exposures_id']);
+      $this->db->bind(':requirements_id', $data['requirements_id']);
+      $this->db->bind(':exposures_id', $data['exposures_id']);
 
       //Execute
       if($this->db->execute()){
@@ -246,7 +234,7 @@
     // Delete Requirement
     public function deleteRequirement($data){
       // Prepare Query
-      $this->db->query("DELETE FROM Requirements WHERE ID IN (" . $data['IDs'] . ")");
+      $this->db->query("DELETE FROM requirements WHERE id IN (" . $data['ids'] . ")");
 
       // Bind Values
       //$this->db->bind(':id', $data['IDs']);

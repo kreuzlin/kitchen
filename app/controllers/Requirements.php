@@ -54,7 +54,7 @@
           'area' => trim($_POST['area']),
           'standard' => trim($_POST['standard']),
           'examples' => trim($_POST['examples']),
-          'chapters_ID' => $_POST['chapters_ID'],
+          'chapters_id' => $_POST['chapters_id'],
           'relevant' => $relevant,
           'requirement_err' => '',
           'description_err' => '',
@@ -99,7 +99,7 @@
           'area' => '',
           'standard' => '',
           'examples' => '',
-          'chapters_ID' => '',
+          'chapters_id' => '',
           'relevant' => '',
           'chapters' => $chapters
           ];
@@ -191,14 +191,13 @@
       }
     }
     
-
     // Edit Requirement
     public function edit($id){
       if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // Sanitize POST
         $_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-        if($_POST['Relevant'] == 1) {
+        if($_POST['relevant'] == 1) {
           $relevant = 1;
         }
         else{
@@ -206,14 +205,14 @@
         }
         
         $data = [
-          'ID' => $id,
-          'Requirement' => trim($_POST['Requirement']),
-          'Description' => trim($_POST['Description']),
-          'Area' => trim($_POST['Area']),
-          'Standard' => trim($_POST['Standard']),
-          'Examples' => trim($_POST['Examples']),
-          'Chapters_ID' => trim($_POST['Chapters_ID']),
-          'Relevant' => $relevant,
+          'id' => $id,
+          'requirement' => trim($_POST['requirement']),
+          'description' => trim($_POST['description']),
+          'area' => trim($_POST['area']),
+          'standard' => trim($_POST['standard']),
+          'examples' => trim($_POST['examples']),
+          'chapters_id' => trim($_POST['chapters_id']),
+          'relevant' => $relevant,
           'requirement_err' => '',
           'description_err' => '',
           'area_err' => '',
@@ -224,10 +223,10 @@
         ];
 
          // Validate Requirement
-         if(empty($data['Requirement'])){
+         if(empty($data['requirement'])){
           $data['requirement_err'] = 'Please enter requirement';
           // Validate Requirement
-          if(empty($data['Requirement'])){
+          if(empty($data['requirement'])){
             $data['description_err'] = 'Please enter description';
           }
         }
@@ -272,7 +271,7 @@
         $ids = implode(', ', $id); 
 
         $data = [
-          'IDs' => $ids
+          'ids' => $ids
         ];
         //Execute
         if($this->requirementModel->deleteRequirement($data)){

@@ -8,7 +8,7 @@
 
     // Get All Risks
     public function getRisks(){
-      $this->db->query("SELECT * FROM Risks");
+      $this->db->query("SELECT * FROM risks");
 
       $results = $this->db->resultset();
 
@@ -17,7 +17,7 @@
 
     // Get Risk By ID
     public function getRiskById($id){
-      $this->db->query("SELECT * FROM Risks WHERE ID = :id");
+      $this->db->query("SELECT * FROM risks WHERE id = :id");
 
       $this->db->bind(':id', $id);
       
@@ -30,11 +30,11 @@
     public function countRiskByRequirements($ids){
       $ids = $ids ? $ids : array(0 => 0);
       $ids = implode(', ', $ids);
-      $query = "SELECT Risks.ID AS Risks_ID, Risks.Risk, COUNT(*) AS Amount FROM Risks 
-      LEFT JOIN Requirement2Risk ON Risks.ID = Requirement2Risk.Risks_ID 
-      LEFT JOIN Requirements ON Requirement2Risk.Requirements_ID = Requirements.ID 
-      WHERE Requirement2Risk.Requirements_ID IN (".$ids.")
-      GROUP BY Risks.Risk";
+      $query = "SELECT risks.id AS risks_id, risks.risk, COUNT(*) AS amount FROM risks 
+      LEFT JOIN requirement2risk ON risks.id = requirement2risk.risks_id
+      LEFT JOIN requirements ON requirement2risk.requirements_id = requirements.id 
+      WHERE requirement2risk.requirements_id IN (".$ids.")
+      GROUP BY risks.risk";
       $this->db->query($query);
       
       $results = $this->db->resultset();
@@ -46,10 +46,10 @@
     public function getRiskByRequirements($ids){
       $ids = $ids ? $ids : array(0 => 0);
       $ids = implode(', ', $ids);
-      $query = "SELECT Risks.ID AS Risks_ID, Risks.Risk, Requirements.ID AS Requirements_ID, Requirements.Requirement FROM Risks 
-      LEFT JOIN Requirement2Risk ON Risks.ID = Requirement2Risk.Risks_ID 
-      LEFT JOIN Requirements ON Requirement2Risk.Requirements_ID = Requirements.ID 
-      WHERE Requirement2Risk.Requirements_ID IN (".$ids.") ";
+      $query = "SELECT risks.id AS risks_id, risks.risk, requirements.id AS requirements_id, requirements.requirement FROM risks 
+      LEFT JOIN requirement2risk ON risks.id = requirement2risk.risks_id 
+      LEFT JOIN requirements ON requirement2risk.requirements_id = requirements.id 
+      WHERE requirement2risk.requirements_id IN (".$ids.") ";
       $this->db->query($query);
       
       $results = $this->db->resultset();
@@ -59,7 +59,7 @@
 
     // Get Risks related to a Requirement
     public function getRiskByReq($id){
-      $this->db->query("SELECT Risks.ID, Risks.Risk FROM Risks LEFT JOIN Requirement2Risk ON Risks.ID = Requirement2Risk.Risks_ID WHERE Requirement2Risk.Requirements_ID = :id");
+      $this->db->query("SELECT risks.id, risks.risk FROM risks LEFT JOIN requirement2risk ON risks.id = requirement2risk.risks_id WHERE requirement2risk.requirements_id = :id");
 
       $this->db->bind(':id', $id);
       
@@ -70,7 +70,7 @@
   
     // Get Risks NOT related to a Requirement
     public function getRiskByNotReq($id){
-      $this->db->query("SELECT Risk, ID FROM Risks WHERE ID NOT IN (SELECT Risks_ID FROM Requirement2Risk WHERE Requirements_ID = :id)");
+      $this->db->query("SELECT risk, id FROM risks WHERE id NOT IN (SELECT risks_id FROM requirement2risk WHERE requirements_id = :id)");
 
       $this->db->bind(':id', $id);
       
@@ -82,13 +82,13 @@
     // Add Risks
     public function addRisk($data){
       // Prepare Query
-      $this->db->query('INSERT INTO Risks (Risk, Description, Reference) 
-      VALUES (:Risk, :Description, :Reference)');
+      $this->db->query('INSERT INTO risks (risk, description, reference) 
+      VALUES (:risk, :description, :reference)');
 
       // Bind Values
-      $this->db->bind(':Risk', $data['risk']);
-      $this->db->bind(':Description', $data['description']);
-      $this->db->bind(':Reference', $data['reference']);
+      $this->db->bind(':risk', $data['risk']);
+      $this->db->bind(':description', $data['description']);
+      $this->db->bind(':reference', $data['reference']);
 
 
       //Execute
@@ -101,15 +101,15 @@
 
     // Update Risk
     public function updateRisk($data){
-      echo '<pre>' . var_dump($data) . '</pre>';
+
       // Prepare Query
-      $this->db->query('UPDATE Risks SET Risk = :Risk, Description = :Description, Reference = :Reference WHERE ID = :id');
+      $this->db->query('UPDATE risks SET risk = :risk, description = :description, reference = :reference WHERE id = :id');
 
       // Bind Values
       $this->db->bind(':id', $data['id']);
-      $this->db->bind(':Risk', $data['risk']);
-      $this->db->bind(':Description', $data['description']);
-      $this->db->bind(':Reference', $data['reference']);
+      $this->db->bind(':risk', $data['risk']);
+      $this->db->bind(':description', $data['description']);
+      $this->db->bind(':reference', $data['reference']);
       
       //Execute
       if($this->db->execute()){
@@ -122,7 +122,7 @@
     // Delete Risk
     public function deleteRisk($data){
       // Prepare Query
-      $this->db->query("DELETE FROM Risks WHERE ID IN (" . $data['IDs'] . ")");
+      $this->db->query("DELETE FROM risks WHERE id IN (" . $data['ids'] . ")");
 
       // Bind Values
       //$this->db->bind(':id', $data['IDs']);

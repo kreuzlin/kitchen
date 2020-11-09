@@ -23,15 +23,15 @@
       <!-- https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=crud-data-table-for-database-with-modal-form -->
       <?php foreach($data['requirements'] as $requirement) : ?>
         <tr>
-          <td><input type="checkbox" name="id[]" value="<?php echo $requirement->ID; ?>"></td>
-          <td><a href="<?php echo URLROOT . '/requirements/edit/' . $requirement->ID; ?>">edit</a></td>
-          <td><a href="<?php echo URLROOT . '/requirements/show/' . $requirement->ID; ?>"><?php echo $requirement->Requirement; ?></a></td>
-          <td><?php echo $requirement->Description; ?></td>
-          <td><?php echo $requirement->Chapter; ?></td>
-          <td><?php echo $requirement->Area; ?></td>
-          <td><?php echo $requirement->Standard; ?></td>
-          <td><?php echo $requirement->Examples; ?></td>
-          <td><?php echo $requirement->Relevant; ?></td>
+          <td><input type="checkbox" name="id[]" value="<?php echo $requirement->id; ?>"></td>
+          <td><a href="<?php echo URLROOT . '/requirements/edit/' . $requirement->id; ?>">edit</a></td>
+          <td><a href="<?php echo URLROOT . '/requirements/show/' . $requirement->id; ?>"><?php echo $requirement->requirement; ?></a></td>
+          <td><?php echo $requirement->description; ?></td>
+          <td><?php echo $requirement->chapter; ?></td>
+          <td><?php echo $requirement->area; ?></td>
+          <td><?php echo $requirement->standard; ?></td>
+          <td><?php echo $requirement->examples; ?></td>
+          <td><?php echo $requirement->relevant; ?></td>
         </tr>
       <?php endforeach; ?>         
       </tbody>

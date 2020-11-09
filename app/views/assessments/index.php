@@ -1,6 +1,6 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
   <?php flash('assessment_message'); ?>
-  <?php //echo "<pre>", var_dump($data['requirements']), "</pre>"; ?>
+  <?php //echo "<pre>", var_dump($data), "</pre>"; ?>
 <div>
 <div>
   <h1>Assessments</h1>
@@ -20,11 +20,11 @@
       <!-- https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=crud-data-table-for-database-with-modal-form -->
       <?php foreach($data['assessments'] as $assessment) : ?>
         <tr>
-          <td><input type="checkbox" name="id[]" value="<?php echo $assessment->ID; ?>"></td>
-          <td><a href="<?php echo URLROOT . '/assessments/edit/' . $assessment->ID; ?>">edit</a></td>
-          <td><a href="<?php echo URLROOT . '/assessments/show/' . $assessment->ID; ?>"><?php echo $assessment->Assessment; ?></a></td>
-          <td><?php echo $assessment->Creation; ?></td>
-          <td><?php echo $assessment->Status; ?></td>
+          <td><input type="checkbox" name="id[]" value="<?php echo $assessment->assessments_id; ?>"></td>
+          <td><a href="<?php echo URLROOT . '/assessments/edit/' . $assessment->assessments_id; ?>">edit</a></td>
+          <td><a href="<?php echo URLROOT . '/assessments/show/' . $assessment->assessments_id; ?>"><?php echo $assessment->assessment; ?></a></td>
+          <td><?php echo $assessment->creation; ?></td>
+          <td><?php echo $assessment->status; ?></td>
           <td><?php echo $assessment->name; ?></td>
         </tr>
       <?php endforeach; ?>         

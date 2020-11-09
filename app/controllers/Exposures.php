@@ -6,8 +6,6 @@
       }
       // Load Models
       $this->requirementModel = $this->model('Requirement');
-      //$this->chapterModel = $this->model('Chapter');
-      //$this->riskModel = $this->model('Risk');
       $this->exposureModel = $this->model('Exposure');
     }
 
@@ -78,9 +76,9 @@
 
       } else {
         $data = [
-          'exposure' => trim($_POST['exposure']),
-          'description' => trim($_POST['description']),
-          'category' => trim($_POST['category'])
+          'exposure' => '',
+          'description' => '',
+          'category' => ''
           ];
 
         $this->view('exposures/add', $data);
@@ -188,9 +186,9 @@
 
         $data = [
           'id' => $id,
-          'exposure' => $exposure->Exposure,
-          'description' => $exposure->Description,
-          'category' => $exposure->Category
+          'exposure' => $exposure->exposure,
+          'description' => $exposure->description,
+          'category' => $exposure->category
         ];
 
         $this->view('exposures/edit', $data);
@@ -206,7 +204,7 @@
         $ids = implode(', ', $id); 
 
         $data = [
-          'IDs' => $ids
+          'ids' => $ids
         ];
         //Execute
         if($this->exposureModel->deleteExposure($data)){

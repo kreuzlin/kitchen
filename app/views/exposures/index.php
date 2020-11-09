@@ -19,11 +19,11 @@
       <!-- https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=crud-data-table-for-database-with-modal-form -->
       <?php foreach($data['exposures'] as $exposure) : ?>
         <tr>
-          <td><input type="checkbox" name="id[]" value="<?php echo $exposure->ID; ?>"></td>
-          <td><a href="<?php echo URLROOT . '/exposures/edit/' . $exposure->ID; ?>">edit</a></td>
-          <td><a href="<?php echo URLROOT . '/exposures/show/' . $exposure->ID; ?>"><?php echo $exposure->Exposure; ?></a></td>
-          <td><?php echo $exposure->Description; ?></td>
-          <td><?php echo $exposure->Category; ?></td>
+          <td><input type="checkbox" name="id[]" value="<?php echo $exposure->id; ?>"></td>
+          <td><a href="<?php echo URLROOT . '/exposures/edit/' . $exposure->id; ?>">edit</a></td>
+          <td><a href="<?php echo URLROOT . '/exposures/show/' . $exposure->id; ?>"><?php echo $exposure->exposure; ?></a></td>
+          <td><?php echo $exposure->description; ?></td>
+          <td><?php echo $exposure->category; ?></td>
         </tr>
       <?php endforeach; ?>         
       </tbody>

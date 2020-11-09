@@ -2,7 +2,7 @@
   <?php flash('assessment_message'); ?>
   <?php //echo "<pre>", var_dump($data['concept']), "</pre>"; ?>
 <div>
-<input type="hidden" id="aid" name="AID" value="<?php echo $data['assessment']->ID; ?>">
+<input type="hidden" id="aid" name="aid" value="<?php echo $data['assessment']->assessments_id; ?>">
 <?php $textOpen = 'How is this requirement met: '; ?>
 <?php $textNA = 'Why is this requirement not applicable: '; ?>
 <?php $textOK = 'This is how this requirement is met: '; ?>
@@ -23,11 +23,11 @@
         Hide / unhide status control
       </button>
     </div><div class="btn-group mr-1">
-    <a class="btn btn-secondary btn-sm" href="<?php echo URLROOT . '/assessments/edit/' . $data['assessment']->ID; ?>" role="button">Edit Exposures</a>
+    <a class="btn btn-secondary btn-sm" href="<?php echo URLROOT . '/assessments/edit/' . $data['assessment']->assessments_id; ?>" role="button">Edit Exposures</a>
   </div>
 </div>
 <div>
-  <h1>Security Concept - <?php echo $data['assessment']->Assessment; ?></h1>
+  <h1>Security Concept - <?php echo $data['assessment']->assessment; ?></h1>
   <p class="lead">Author: <?php echo $data['assessment']->name; ?></p>
 </div>
 
@@ -41,7 +41,7 @@
 <?php if ($concept_item['text'] == 'Known constraints and limiatations'): ?>
 <ul>
 <?php foreach($data['residualRisks'] as $risk_item) : ?>
-<li><?php echo 'The <a href="#'.$risk_item->Requirement.'">gap</a> in the ' . $risk_item->Requirement . ' requirement leads to some exposure with regard to ' . $risk_item->Risk ?></li>
+<li><?php echo 'The <a href="#'.$risk_item->requirement.'">gap</a> in the ' . $risk_item->requirement . ' requirement leads to some exposure with regard to ' . $risk_item->risk ?></li>
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>

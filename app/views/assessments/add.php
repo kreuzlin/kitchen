@@ -23,14 +23,14 @@
       <!-- https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=crud-data-table-for-database-with-modal-form -->
       <?php foreach($data['exposures'] as $exposure) : ?>
         <tr>
-          <?php if (in_array($exposure->ID, $data['answers'])): ?>
-            <td><input type="checkbox" name="answers[]" value="<?php echo $exposure->ID; ?>" checked></td>
+          <?php if (in_array($exposure->id, $data['answers'])): ?>
+            <td><input type="checkbox" name="answers[]" value="<?php echo $exposure->id; ?>" checked></td>
           <?php else: ?>
-            <td><input type="checkbox" name="answers[]" value="<?php echo $exposure->ID; ?>"></td>
+            <td><input type="checkbox" name="answers[]" value="<?php echo $exposure->id; ?>"></td>
           <?php endif; ?>
-          <td><?php echo $exposure->Exposure; ?></td>
-          <td><?php echo $exposure->Description; ?></td>
-          <td><?php echo $exposure->Category; ?></td>
+          <td><?php echo $exposure->exposure; ?></td>
+          <td><?php echo $exposure->description; ?></td>
+          <td><?php echo $exposure->category; ?></td>
         </tr>
       <?php endforeach; ?>         
       </tbody>
