@@ -103,7 +103,7 @@
 
     // Get Requirements not related to a exposure
     public function getRequirementsByNotExp($id){
-      $this->db->query("SELECT Requirement, ID FROM Requirements WHERE ID NOT IN (SELECT Requirements_ID FROM Requirement2Exposure WHERE Exposures_ID = :id)");
+      $this->db->query("SELECT Requirement, ID FROM Requirements WHERE Relevant = True AND ID NOT IN (SELECT Requirements_ID FROM Requirement2Exposure WHERE Exposures_ID = :id)");
 
       $this->db->bind(':id', $id);
       
