@@ -90,7 +90,6 @@
       $this->db->bind(':description', $data['description']);
       $this->db->bind(':reference', $data['reference']);
 
-
       //Execute
       if($this->db->execute()){
         return true;

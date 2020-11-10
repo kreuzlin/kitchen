@@ -76,7 +76,7 @@
         }
 
       } else {
-        $chapters = $this->riskModel->getRisks();
+        //$chapters = $this->riskModel->getRisks();
         $data = [
           'risk' => '',
           'description' => '',
