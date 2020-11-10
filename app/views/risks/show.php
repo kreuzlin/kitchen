@@ -12,7 +12,7 @@
   </div>
 
   <div class="container">
-    <form action="<?php echo URLROOT; ?>/exposures/relation/<?php echo $data['risk']->id; ?>" method="post"> 
+    <form action="<?php echo URLROOT; ?>/risks/relation/<?php echo $data['risk']->id; ?>" method="post"> 
       <div class="row">
         <div class="col-sm">
         <h4>releated requirements:</h4>

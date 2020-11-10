@@ -113,13 +113,12 @@
       if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // Sanitize POST
         //$_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-
+        
         if($_POST['action'] == 'removeRisk'){
           $id_remove = $_POST['id_remove'];
           $id_remove = array_map('intval',$id_remove); // sanitise the retreived array
           $id = intval($id);
-          //echo '<pre>' . var_dump($id_remove) . '</pre>';
+          echo '<pre>' . var_dump($id_remove) . '</pre>';
           $i = 0;
           foreach($id_remove as $risks_id){
             $i++;
@@ -154,7 +153,7 @@
           $id_remove = $_POST['id_remove'];
           $id_remove = array_map('intval',$id_remove); // sanitise the retreived array
           $id = intval($id);
-          //echo '<pre>' . var_dump($id_remove) . '</pre>';
+          echo '<pre>' . var_dump($id_remove) . '</pre>';
           $i = 0;
           foreach($id_remove as $exposures_id){
             $i++;
@@ -179,6 +178,7 @@
               'requirements_id' => $id,
               'exposures_id' => $exposures_id
             ];
+            echo '<pre>' . var_dump($data) . '</pre>';
             $this->requirementModel->addExposureToReq($data);
           }
           // Redirect

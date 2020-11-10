@@ -141,6 +141,50 @@
       }
     }
 
+    // Update Risk, Requirement relationship
+    public function relation($id){
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if($_POST['action'] == 'remove'){
+          $id_remove = $_POST['id_remove'];
+          $id_remove = array_map('intval',$id_remove); // sanitise the retreived array
+          $id = intval($id);
+          echo '<pre>' . var_dump($id_remove) . '</pre>';
+          $i = 0;
+          foreach($id_remove as $req_id){
+            $i++;
+            $data = [
+              'requirements_id' => $req_id,
+              'risks_id' => $id
+            ];
+            $this->requirementModel->removeRiskFromReq($data); 
+          }
+          // Redirect
+          flash('requirement_message', $i . ' selected Risk(s) removed');
+          redirect('risks/show', $id);
+        }
+        elseif($_POST['action'] == 'add'){
+          $id_add = $_POST['id_add'];
+          $id_add = array_map('intval',$id_add); // sanitise the retreived array
+          $id = intval($id);
+          $i = 0;
+          foreach($id_add as $req_id){
+            $i++;
+            $data = [
+              'requirements_id' => $req_id,
+              'risks_id' => $id
+            ];
+            $this->requirementModel->addRiskToReq($data);
+          }
+          // Redirect
+          flash('requirement_message', $i . ' selected Risk(s) added');
+          redirect('risks/show', $id);
+        }
+      }
+      else{
+        exit;
+      }
+    }
+
     // Delete Risk
     public function delete(){
       if($_SERVER['REQUEST_METHOD'] == 'POST'){

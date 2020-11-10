@@ -160,7 +160,7 @@
 
     // Add Risk to Requriement
     public function addRiskToReq($data){
-      //echo '<pre>' . var_dump($data) . '</pre>';
+      echo '<pre>' . var_dump($data) . '</pre>';
       // Prepare Query
       $this->db->query('INSERT INTO requirement2risk (requirements_id, risks_id) VALUES (:requirements_id, :risks_id)');
 
@@ -202,7 +202,7 @@
 
       // Bind Values
       $this->db->bind(':requirements_id', $data['requirements_id']);
-      $this->db->bind(':exposures_ID', $data['exposures_id']);
+      $this->db->bind(':exposures_id', $data['exposures_id']);
 
       //Execute
       if($this->db->execute()){

@@ -8,7 +8,6 @@
 
     // Get All Chapters
     public function getChapters(){
-      //$this->db->query("SELECT *, Requirements.ID AS Requirements_ID, Chapters.ID AS Chapters_ID, Requirements.Description AS Requirements_Description, Chapters.Description AS Chapters_Description FROM Chapters LEFT JOIN Requirements ON Chapters_ID = Chapters.ID ORDER BY Sequenz");
       $this->db->query("SELECT * FROM chapters ORDER BY sequenz");
       $results = $this->db->resultset();
 

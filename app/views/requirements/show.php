@@ -34,7 +34,7 @@
   </div>
 
   <div class="container">
-    <form action="<?php echo URLROOT; ?>/requirements/relation/<?php echo $data['requirement']->ID; ?>" method="post"> 
+    <form action="<?php echo URLROOT; ?>/requirements/relation/<?php echo $data['requirement']->id; ?>" method="post"> 
       <div class="row">
         <div class="col-sm">
         <h4>releated risks:</h4>
