@@ -38,6 +38,9 @@
 <?php break ?>
 <?php case "h2":?>
 <h3><?php echo $concept_item['text']?></h3>
+<?php if ($concept_item['text'] == 'Assets'): ?>
+<img class="mx-auto d-block" src="<?php echo URLROOT . '/public/diagram.jpg'?>" alt="diagram">
+<?php endif; ?>
 <?php if ($concept_item['text'] == 'Known constraints and limiatations'): ?>
 <ul>
 <?php foreach($data['residualRisks'] as $risk_item) : ?>
