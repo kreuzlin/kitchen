@@ -40,7 +40,7 @@
     // Get Requirements related to a set of Exposures
     public function getRequirementsByExposures($exposures){
       $exposures = implode(', ', $exposures); 
-      $query = "SELECT requirements.id, requirements.requirement, requirements.description FROM requirements 
+      $query = "SELECT DISTINCT requirements.id, requirements.requirement, requirements.description FROM requirements 
       LEFT JOIN requirement2exposure ON requirements.id = requirement2exposure.requirements_id 
       WHERE requirement2exposure.exposures_id IN (".$exposures.")";
       
@@ -54,7 +54,7 @@
     // Get Requirements related to a Chapter ID and related to a set of Exposures
     public function getRequirementsByExposuresAndChapter($exposures, $id){
       $exposures = implode(', ', $exposures); 
-      $query = "SELECT requirements.id, requirements.requirement, requirements.description FROM requirements 
+      $query = "SELECT DISTINCT requirements.id, requirements.requirement, requirements.description FROM requirements 
       LEFT JOIN requirement2exposure ON requirements.id = requirement2exposure.requirements_id 
       WHERE requirement2exposure.exposures_id IN (".$exposures.") AND chapters_id = :id";
       
