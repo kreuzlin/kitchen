@@ -52,7 +52,7 @@
 
          // Validate Risk
          if(empty($data['risk'])){
-          $data['requirement_err'] = 'Please enter Risk';
+          $data['risk_err'] = 'Please enter Risk';
           // Validate Description
           if(empty($data['description'])){
             $data['description_err'] = 'Please enter Description';
@@ -64,7 +64,7 @@
           // Validation passed
           //Execute
           if($this->riskModel->addRisk($data)){
-            // Redirect to login
+            // Redirect
             flash('risk_added', 'Risk Added');
             redirect('risks');
           } else {
