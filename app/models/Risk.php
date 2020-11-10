@@ -30,11 +30,11 @@
     public function countRiskByRequirements($ids){
       $ids = $ids ? $ids : array(0 => 0);
       $ids = implode(', ', $ids);
-      $query = "SELECT risks.id AS risks_id, risk, COUNT(risk) AS amount FROM risks 
+      $query = "SELECT risks.id AS risks_id, risk, COUNT(risks_id) AS amount FROM risks 
       LEFT JOIN requirement2risk ON risks.id = requirement2risk.risks_id
       LEFT JOIN requirements ON requirement2risk.requirements_id = requirements.id 
       WHERE requirement2risk.requirements_id IN (".$ids.")
-      GROUP BY risk";
+      GROUP BY risks_id";
       $this->db->query($query);
       
       $results = $this->db->resultset();
