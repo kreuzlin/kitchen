@@ -3,7 +3,7 @@
   define("DB_HOST", "cyber.postgres.database.azure.com");
   define("DB_USER", "kitchen");
   define("DB_PASS", "adp7h-hj7hm-K6zik");
-  define("DB_NAME", "public");
+  define("DB_NAME", "postgres");
 
   // App Root
   define('APPROOT', dirname(dirname(__FILE__)));
